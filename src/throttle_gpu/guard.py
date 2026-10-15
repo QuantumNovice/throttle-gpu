@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import _thread
 import threading
-from typing import Callable, Optional
+from typing import Callable
 
-from .errors import GPUMonitorError, ThermalLimitExceeded
+from .errors import GPUMonitorError
 from .policy import ThermalPolicy, ThermalTracker
 from .sources import TemperatureSource, default_source
 
@@ -36,9 +36,9 @@ class ThermalGuard:
         *,
         interval_s: float = 1.0,
         consecutive: int = 2,
-        warn_temp_c: Optional[float] = None,
-        on_warning: Optional[Callable[[float, float], None]] = None,
-        source: Optional[TemperatureSource] = None,
+        warn_temp_c: float | None = None,
+        on_warning: Callable[[float, float], None] | None = None,
+        source: TemperatureSource | None = None,
     ) -> None:
         self.policy = ThermalPolicy(
             max_temp_c=max_temp_c,
@@ -50,13 +50,15 @@ class ThermalGuard:
         self._source = source
         self._owns_source = False
         self._tracker = ThermalTracker(self.policy)
+        self._lock = threading.Lock()
         self._stop = threading.Event()
-        self._thread: Optional[threading.Thread] = None
-        self._error: Optional[BaseException] = None
+        self._thread: threading.Thread | None = None
+        self._error: BaseException | None = None
         self._interrupt_main = False
+        self._armed = False  # True once the with-block is running
 
     @property
-    def peak_temp_c(self) -> Optional[float]:
+    def peak_temp_c(self) -> float | None:
         """Hottest reading seen so far, or ``None`` before the first sample."""
         return self._tracker.peak_c
 
@@ -70,7 +72,7 @@ class ThermalGuard:
         if self._error is not None:
             raise self._error
 
-    def __enter__(self) -> "ThermalGuard":
+    def __enter__(self) -> ThermalGuard:
         if self._source is None:
             self._source = default_source()
             self._owns_source = True
@@ -82,16 +84,27 @@ class ThermalGuard:
             target=self._watch, name="throttle-gpu-monitor", daemon=True
         )
         self._thread.start()
+
+        # Arm under the lock. A trip that happened during startup has no interrupt
+        # pending, so it is raised here. Otherwise the block would run unmonitored.
+        with self._lock:
+            self._armed = True
+            early_error = self._error
+        if early_error is not None:
+            self._shutdown()
+            raise early_error
         return self
 
     def __exit__(self, exc_type, exc, tb) -> bool:
-        self._stop.set()
-        if self._thread is not None:
-            self._thread.join()
-        if self._owns_source and self._source is not None:
-            self._source.close()
-            self._source = None
-            self._owns_source = False
+        with self._lock:
+            self._armed = False
+        try:
+            self._shutdown()
+        except KeyboardInterrupt:
+            # A trip interrupt can land while we wait for the monitor thread.
+            # Its error is already recorded, so it is raised below.
+            if self._error is None:
+                raise
 
         if self._error is not None:
             if exc_type is None or exc_type is KeyboardInterrupt:
@@ -100,13 +113,22 @@ class ThermalGuard:
                 raise self._error from None
         return False
 
+    def _shutdown(self) -> None:
+        self._stop.set()
+        if self._thread is not None:
+            self._thread.join()
+        if self._owns_source and self._source is not None:
+            self._source.close()
+            self._source = None
+            self._owns_source = False
+
     def _watch(self) -> None:
         assert self._source is not None
         warned = False
         while not self._stop.is_set():
             try:
                 temps = self._source.read()
-                error: Optional[BaseException] = self._tracker.update(temps)
+                error: BaseException | None = self._tracker.update(temps)
             except GPUMonitorError as exc:
                 error = exc
             except Exception as exc:
@@ -121,8 +143,10 @@ class ThermalGuard:
                     warned = False
 
             if error is not None:
-                self._error = error
-                if self._interrupt_main:
+                with self._lock:
+                    self._error = error
+                    interrupt = self._interrupt_main and self._armed
+                if interrupt:
                     _thread.interrupt_main()
                 return
 
