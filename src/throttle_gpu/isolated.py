@@ -5,9 +5,10 @@ from __future__ import annotations
 import multiprocessing
 import pickle
 import queue as queue_module
-from typing import Any, Callable, Mapping, Optional, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any, Callable
 
-from .errors import GPUMonitorError, ThermalLimitExceeded
+from .errors import GPUMonitorError
 from .policy import ThermalPolicy, ThermalTracker
 from .sources import TemperatureSource, default_source
 
@@ -30,12 +31,12 @@ def _child_main(target: Callable[..., Any], args: tuple, kwargs: dict, results: 
 def run_isolated(
     target: Callable[..., Any],
     args: Sequence[Any] = (),
-    kwargs: Optional[Mapping[str, Any]] = None,
+    kwargs: Mapping[str, Any] | None = None,
     *,
     max_temp_c: float = 85.0,
     interval_s: float = 1.0,
     consecutive: int = 2,
-    source: Optional[TemperatureSource] = None,
+    source: TemperatureSource | None = None,
 ) -> Any:
     """Run ``target(*args, **kwargs)`` in a child process, stopping it on overheat.
 
@@ -55,9 +56,7 @@ def run_isolated(
         consecutive: Over-limit samples in a row required to trip.
         source: Temperature source. Defaults to ``default_source()``.
     """
-    policy = ThermalPolicy(
-        max_temp_c=max_temp_c, interval_s=interval_s, consecutive=consecutive
-    )
+    policy = ThermalPolicy(max_temp_c=max_temp_c, interval_s=interval_s, consecutive=consecutive)
     tracker = ThermalTracker(policy)
     owns_source = source is None
     if source is None:
@@ -65,9 +64,7 @@ def run_isolated(
 
     ctx = multiprocessing.get_context("spawn")
     results = ctx.Queue()
-    child = ctx.Process(
-        target=_child_main, args=(target, tuple(args), dict(kwargs or {}), results)
-    )
+    child = ctx.Process(target=_child_main, args=(target, tuple(args), dict(kwargs or {}), results))
     child.start()
     try:
         while child.is_alive():
@@ -103,7 +100,7 @@ def run_isolated(
     return value
 
 
-def _stop_child(child: "multiprocessing.Process") -> None:
+def _stop_child(child: multiprocessing.Process) -> None:
     child.terminate()
     child.join(_KILL_GRACE_S)
     if child.is_alive():

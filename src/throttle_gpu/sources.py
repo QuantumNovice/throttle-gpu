@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-from typing import List, Protocol
+from typing import Protocol
 
 from .errors import GPUUnavailableError
 
@@ -17,7 +17,7 @@ from .errors import GPUUnavailableError
 class TemperatureSource(Protocol):
     """Anything that can report the current temperature (°C) of each GPU."""
 
-    def read(self) -> List[float]:
+    def read(self) -> list[float]:
         """Return one temperature per GPU, in device index order."""
 
     def close(self) -> None:
@@ -42,7 +42,7 @@ class NvmlSource:
             pynvml.nvmlShutdown()
             raise GPUUnavailableError("NVML reports no NVIDIA GPUs")
 
-    def read(self) -> List[float]:
+    def read(self) -> list[float]:
         gpu_sensor = self._nvml.NVML_TEMPERATURE_GPU
         return [
             float(self._nvml.nvmlDeviceGetTemperature(handle, gpu_sensor))
@@ -63,7 +63,7 @@ class NvidiaSmiSource:
         self._path = path
         self._timeout_s = timeout_s
 
-    def read(self) -> List[float]:
+    def read(self) -> list[float]:
         result = subprocess.run(
             [self._path, "--query-gpu=temperature.gpu", "--format=csv,noheader,nounits"],
             capture_output=True,

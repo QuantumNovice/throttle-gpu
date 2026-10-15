@@ -8,10 +8,9 @@ import signal
 import subprocess
 import sys
 import time
-from typing import List, Optional
 
 from .errors import GPUMonitorError, GPUUnavailableError, ThermalLimitExceeded
-from .policy import ThermalTracker, ThermalPolicy
+from .policy import ThermalPolicy, ThermalTracker
 from .sources import default_source
 
 EXIT_OK = 0
@@ -22,7 +21,10 @@ _KILL_GRACE_S = 5.0
 
 def _add_policy_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
-        "--max-temp", type=float, default=85.0, help="trip above this temperature in °C (default 85)"
+        "--max-temp",
+        type=float,
+        default=85.0,
+        help="trip above this temperature in °C (default 85)",
     )
     parser.add_argument(
         "--interval", type=float, default=1.0, help="seconds between samples (default 1)"
@@ -79,7 +81,10 @@ def _cmd_run(args: argparse.Namespace) -> int:
     if command and command[0] == "--":
         command = command[1:]
     if not command:
-        print("throttle-gpu run: no command given (usage: throttle-gpu run -- CMD ...)", file=sys.stderr)
+        print(
+            "throttle-gpu run: no command given (usage: throttle-gpu run -- CMD ...)",
+            file=sys.stderr,
+        )
         return EXIT_ERROR
 
     policy = _policy_from(args)
@@ -159,7 +164,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     handlers = {"status": _cmd_status, "watch": _cmd_watch, "run": _cmd_run}

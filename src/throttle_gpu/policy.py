@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Optional, Sequence
 
 from .errors import GPUMonitorError, ThermalLimitExceeded
 
@@ -23,7 +23,7 @@ class ThermalPolicy:
     max_temp_c: float = 85.0
     interval_s: float = 1.0
     consecutive: int = 2
-    warn_temp_c: Optional[float] = None
+    warn_temp_c: float | None = None
 
     def __post_init__(self) -> None:
         if self.interval_s <= 0:
@@ -39,10 +39,10 @@ class ThermalTracker:
 
     def __init__(self, policy: ThermalPolicy) -> None:
         self.policy = policy
-        self.peak_c: Optional[float] = None
+        self.peak_c: float | None = None
         self._over_count = 0
 
-    def update(self, temps: Sequence[float]) -> Optional[ThermalLimitExceeded]:
+    def update(self, temps: Sequence[float]) -> ThermalLimitExceeded | None:
         """Record one sample. Return an exception if the limit has been breached."""
         if not temps:
             raise GPUMonitorError("temperature source returned no GPU readings")
