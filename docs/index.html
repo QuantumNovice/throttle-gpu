@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="API reference and practical use cases for throttle-gpu, a Python NVIDIA GPU temperature monitor and thermal guard.">
+    <title>throttle-gpu | API and Use Cases</title>
+    <style>
+      :root { color-scheme: light dark; font: 16px/1.6 system-ui, sans-serif; }
+      body { max-width: 850px; margin: 3rem auto; padding: 0 1.25rem; }
+      h1, h2 { line-height: 1.2; }
+      a { color: #4b8bf5; }
+      pre { overflow-x: auto; padding: 1rem; border-radius: 0.5rem; background: #8882; }
+      code { font-family: ui-monospace, monospace; }
+      nav { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; }
+      section { margin: 2rem 0; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>throttle-gpu</h1>
+      <p>Python API reference and practical examples for monitoring NVIDIA GPU temperature and stopping workloads before they exceed a chosen limit.</p>
+      <nav aria-label="Documentation">
+        <a href="api/throttle_gpu.html">Generated API reference</a>
+        <a href="https://github.com/QuantumNovice/throttle-gpu">GitHub repository</a>
+        <a href="https://github.com/QuantumNovice/throttle-gpu/blob/main/README.md">Full README</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>Install</h2>
+        <p>Install the package directly from GitHub with pip:</p>
+        <pre><code>python -m pip install "git+https://github.com/QuantumNovice/throttle-gpu.git"</code></pre>
+        <p>For the optional NVML backend, install the <code>nvml</code> extra. Without it, the package reads temperatures through the NVIDIA driver's <code>nvidia-smi</code> command.</p>
+        <pre><code>python -m pip install "throttle-gpu[nvml] @ git+https://github.com/QuantumNovice/throttle-gpu.git"</code></pre>
+      </section>
+
+      <section>
+        <h2>Why this is useful on an MSI Raider GE78</h2>
+        <p>The Raider GE78 HX is sold in configurations with NVIDIA GeForce RTX Laptop GPUs. Long CUDA training, rendering, or other sustained GPU workloads can keep the GPU busy for extended periods. <code>throttle-gpu</code> lets you set a temperature limit and stop a Python block or command when the GPU crosses it. See MSI's <a href="https://www.msi.com/Laptop/Raider-GE78-HX-14VX/Overview">Raider GE78 HX product overview</a>. Configurations vary. This tool monitors the GPU sensor and stops work. It does not control fans or replace built-in thermal protections.
+        </p>
+      </section>
+
+      <section>
+        <h2>Protect a Python training block</h2>
+        <p>Use <code>ThermalGuard</code> to monitor temperature while a block runs. Set a warning threshold below the stop limit if you want time to react.</p>
+        <pre><code>from throttle_gpu import ThermalGuard, ThermalLimitExceeded
+
+try:
+    with ThermalGuard(max_temp_c=83, warn_temp_c=78):
+        train_model()
+except ThermalLimitExceeded as exc:
+    print(f"Training stopped: {exc}")</code></pre>
+      </section>
+
+      <section>
+        <h2>Guard a training command</h2>
+        <p>Wrap a script or other process when you need the monitor to stop the workload independently of the Python code inside it.</p>
+        <pre><code>throttle-gpu run --max-temp 83 -- python train.py</code></pre>
+      </section>
+
+      <section>
+        <h2>Generated API reference</h2>
+        <p>The API pages are built from the package's Python docstrings by the GitHub Actions workflow. Read the <a href="api/throttle_gpu.html">package reference</a> or browse individual modules:</p>
+        <ul>
+          <li><a href="api/throttle_gpu.guard.html">ThermalGuard</a></li>
+          <li><a href="api/throttle_gpu.isolated.html">run_isolated</a></li>
+          <li><a href="api/throttle_gpu.policy.html">ThermalPolicy</a></li>
+          <li><a href="api/throttle_gpu.sources.html">Temperature sources</a></li>
+          <li><a href="api/throttle_gpu.cli.html">Command line</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

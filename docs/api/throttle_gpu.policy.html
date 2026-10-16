@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module throttle_gpu.policy</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="throttle_gpu.html"><font color="#ffffff">throttle_gpu</font></a>.policy</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Chas-dumb-ideas%5Cgit-contrib%5Cthrottle-gpu%5Csrc%5Cthrottle_gpu%5Cpolicy.py">d:\has-dumb-ideas\git-contrib\throttle-gpu\src\throttle_gpu\policy.py</a></font></td></tr></table>
+    <p><tt>Thermal&nbsp;limits&nbsp;and&nbsp;the&nbsp;logic&nbsp;that&nbsp;decides&nbsp;when&nbsp;to&nbsp;trip.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="throttle_gpu.policy.html#ThermalPolicy">ThermalPolicy</a>
+</font></dt><dt><font face="helvetica, arial"><a href="throttle_gpu.policy.html#ThermalTracker">ThermalTracker</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThermalPolicy">class <strong>ThermalPolicy</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ThermalPolicy">ThermalPolicy</a>(max_temp_c:&nbsp;'float'&nbsp;=&nbsp;85.0,&nbsp;interval_s:&nbsp;'float'&nbsp;=&nbsp;1.0,&nbsp;consecutive:&nbsp;'int'&nbsp;=&nbsp;2,&nbsp;warn_temp_c:&nbsp;'float&nbsp;|&nbsp;None'&nbsp;=&nbsp;None)&nbsp;-&amp;gt;&nbsp;None<br>
+&nbsp;<br>
+How&nbsp;hot&nbsp;a&nbsp;GPU&nbsp;may&nbsp;get&nbsp;and&nbsp;how&nbsp;quickly&nbsp;the&nbsp;guard&nbsp;reacts.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max_temp_c:&nbsp;Trip&nbsp;when&nbsp;a&nbsp;GPU&nbsp;is&nbsp;strictly&nbsp;hotter&nbsp;than&nbsp;this&nbsp;(°C).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interval_s:&nbsp;Seconds&nbsp;between&nbsp;temperature&nbsp;samples.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;consecutive:&nbsp;Number&nbsp;of&nbsp;samples&nbsp;in&nbsp;a&nbsp;row&nbsp;above&nbsp;``max_temp_c``&nbsp;required&nbsp;to&nbsp;trip.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Values&nbsp;above&nbsp;1&nbsp;filter&nbsp;out&nbsp;one-off&nbsp;spikes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;warn_temp_c:&nbsp;Optional&nbsp;lower&nbsp;threshold&nbsp;that&nbsp;triggers&nbsp;a&nbsp;warning&nbsp;callback.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ThermalPolicy-__delattr__"><strong>__delattr__</strong></a>(self, name)</dt><dd><tt>Implement&nbsp;delattr(self,&nbsp;name).</tt></dd></dl>
+
+<dl><dt><a name="ThermalPolicy-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="ThermalPolicy-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="ThermalPolicy-__init__"><strong>__init__</strong></a>(self, max_temp_c: 'float' = 85.0, interval_s: 'float' = 1.0, consecutive: 'int' = 2, warn_temp_c: 'float | None' = None) -&gt; None</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="ThermalPolicy-__post_init__"><strong>__post_init__</strong></a>(self) -&gt; 'None'</dt></dl>
+
+<dl><dt><a name="ThermalPolicy-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="ThermalPolicy-__setattr__"><strong>__setattr__</strong></a>(self, name, value)</dt><dd><tt>Implement&nbsp;setattr(self,&nbsp;name,&nbsp;value).</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {'consecutive': 'int', 'interval_s': 'float', 'max_temp_c': 'float', 'warn_temp_c': 'float | None'}</dl>
+
+<dl><dt><strong>__dataclass_fields__</strong> = {'consecutive': Field(name='consecutive',type='int',default=2,de...appingproxy({}),kw_only=False,_field_type=_FIELD), 'interval_s': Field(name='interval_s',type='float',default=1.0...appingproxy({}),kw_only=False,_field_type=_FIELD), 'max_temp_c': Field(name='max_temp_c',type='float',default=85....appingproxy({}),kw_only=False,_field_type=_FIELD), 'warn_temp_c': Field(name='warn_temp_c',type='float | None',def...appingproxy({}),kw_only=False,_field_type=_FIELD)}</dl>
+
+<dl><dt><strong>__dataclass_params__</strong> = _DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=True)</dl>
+
+<dl><dt><strong>__match_args__</strong> = ('max_temp_c', 'interval_s', 'consecutive', 'warn_temp_c')</dl>
+
+<dl><dt><strong>consecutive</strong> = 2</dl>
+
+<dl><dt><strong>interval_s</strong> = 1.0</dl>
+
+<dl><dt><strong>max_temp_c</strong> = 85.0</dl>
+
+<dl><dt><strong>warn_temp_c</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThermalTracker">class <strong>ThermalTracker</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ThermalTracker">ThermalTracker</a>(policy:&nbsp;'<a href="#ThermalPolicy">ThermalPolicy</a>')&nbsp;-&amp;gt;&nbsp;'None'<br>
+&nbsp;<br>
+Feeds&nbsp;samples&nbsp;into&nbsp;a&nbsp;policy&nbsp;and&nbsp;reports&nbsp;when&nbsp;the&nbsp;limit&nbsp;is&nbsp;breached.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ThermalTracker-__init__"><strong>__init__</strong></a>(self, policy: 'ThermalPolicy') -&gt; 'None'</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="ThermalTracker-update"><strong>update</strong></a>(self, temps: 'Sequence[float]') -&gt; 'ThermalLimitExceeded | None'</dt><dd><tt>Record&nbsp;one&nbsp;sample.&nbsp;Return&nbsp;an&nbsp;exception&nbsp;if&nbsp;the&nbsp;limit&nbsp;has&nbsp;been&nbsp;breached.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>annotations</strong> = _Feature((3, 7, 0, 'beta', 1), (3, 11, 0, 'alpha', 0), 16777216)</td></tr></table>
+</body></html>

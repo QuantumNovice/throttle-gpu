@@ -9,6 +9,10 @@
 
 Requires an NVIDIA GPU with a working driver. It reads temperatures through NVML (`nvidia-ml-py`, optional) and falls back to `nvidia-smi`.
 
+## Why use this on an MSI Raider GE78?
+
+The MSI Raider GE78 HX is available in configurations with NVIDIA GeForce RTX Laptop GPUs and is designed for high performance. Long CUDA training, rendering, or other sustained GPU work can keep the GPU under load for extended periods. `throttle-gpu` gives those jobs a configurable temperature limit and can stop a command or isolated Python function when that limit is exceeded. This is useful when running long work on a laptop such as the [Raider GE78 HX](https://www.msi.com/Laptop/Raider-GE78-HX-14VX/Overview). Configurations vary. The tool monitors the GPU sensor and stops work; it does not control fans or replace the laptop's built-in thermal protections.
+
 ## Install
 
 ```bash
@@ -95,10 +99,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Tests use a fake temperature source, so 
 
 ## Documentation
 
-The API reference is generated from Python docstrings and published to GitHub Pages when changes are pushed to `main`. Enable GitHub Pages for the repository with **GitHub Actions** as the build and deployment source. To generate the same HTML locally, run:
+The [API reference and use case guide](https://quantumnovice.github.io/throttle-gpu/) are published from the `main` branch's `/docs` folder. When source code changes, GitHub Actions uses Python's `pydoc` to regenerate API pages from function and class docstrings and commit the HTML to that folder. The home page includes installation steps and workload examples. Select **Deploy from a branch**, branch `main`, folder `/docs` in the repository's GitHub Pages settings. To generate the API HTML locally, run:
 
 ```bash
-PYTHONPATH=src python -m pydoc -w throttle_gpu throttle_gpu.errors throttle_gpu.guard throttle_gpu.isolated throttle_gpu.policy throttle_gpu.sources throttle_gpu.cli
+python scripts/generate_api_docs.py
 ```
 
 ## License

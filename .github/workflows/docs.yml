@@ -1,45 +1,37 @@
-name: Build and deploy API docs
+name: Generate API documentation
 
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "docs/api/**"
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: api-docs
+  cancel-in-progress: false
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Generate HTML from Python docstrings
+      - name: Generate API HTML from Python docstrings
+        run: python scripts/generate_api_docs.py
+      - name: Commit updated API pages
         run: |
-          mkdir -p site
-          export PYTHONPATH="$GITHUB_WORKSPACE/src"
-          python -m pydoc -w throttle_gpu throttle_gpu.errors throttle_gpu.guard throttle_gpu.isolated throttle_gpu.policy throttle_gpu.sources throttle_gpu.cli
-          cp throttle_gpu.html site/index.html
-          cp throttle_gpu.*.html site/
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/api
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: regenerate API reference"
+            git push origin HEAD:main
+          fi
