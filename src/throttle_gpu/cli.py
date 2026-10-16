@@ -119,12 +119,20 @@ def _terminate_tree(child: subprocess.Popen) -> None:
     if child.poll() is not None:
         return
     if sys.platform == "win32":
-        subprocess.run(
-            ["taskkill", "/F", "/T", "/PID", str(child.pid)],
-            capture_output=True,
-            check=False,
-        )
-        child.wait()
+        try:
+            subprocess.run(
+                ["taskkill", "/F", "/T", "/PID", str(child.pid)],
+                capture_output=True,
+                check=False,
+                timeout=_KILL_GRACE_S,
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+        try:
+            child.wait(timeout=_KILL_GRACE_S)
+        except subprocess.TimeoutExpired:
+            child.kill()
+            child.wait()
         return
 
     _signal_group(child.pid, signal.SIGTERM)

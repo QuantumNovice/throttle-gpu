@@ -1,3 +1,4 @@
+import subprocess
 import sys
 
 import pytest
@@ -54,6 +55,23 @@ def test_run_kills_child_when_hot(hot_gpu):
         ]
     )
     assert code == cli.EXIT_THERMAL_LIMIT
+
+
+def test_windows_terminate_tree_falls_back_when_taskkill_fails(monkeypatch):
+    monkeypatch.setattr(cli.sys, "platform", "win32")
+
+    def taskkill_unavailable(*args, **kwargs):
+        raise OSError("taskkill unavailable")
+
+    monkeypatch.setattr(cli.subprocess, "run", taskkill_unavailable)
+    child = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(120)"])
+    try:
+        cli._terminate_tree(child)
+        assert child.poll() is not None
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.wait()
 
 
 def test_run_without_command_is_an_error(cool_gpu, capsys):
