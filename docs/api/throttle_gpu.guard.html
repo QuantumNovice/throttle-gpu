@@ -1,47 +1,44 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Python: module throttle_gpu.guard</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head><body bgcolor="#f0f0f8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module throttle_gpu.guard</title>
+</head><body>
 
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
-<tr bgcolor="#7799ee">
-<td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="throttle_gpu.html"><font color="#ffffff">throttle_gpu</font></a>.guard</strong></big></big></font></td
-><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Chas-dumb-ideas%5Cgit-contrib%5Cthrottle-gpu%5Csrc%5Cthrottle_gpu%5Cguard.py">d:\has-dumb-ideas\git-contrib\throttle-gpu\src\throttle_gpu\guard.py</a></font></td></tr></table>
-    <p><tt>``<a href="#ThermalGuard">ThermalGuard</a>``:&nbsp;watch&nbsp;GPU&nbsp;temperature&nbsp;while&nbsp;a&nbsp;block&nbsp;of&nbsp;code&nbsp;runs.</tt></p>
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="throttle_gpu.html" class="white">throttle_gpu</a>.guard</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/home/runner/work/throttle-gpu/throttle-gpu/src/throttle_gpu/guard.py">/home/runner/work/throttle-gpu/throttle-gpu/src/throttle_gpu/guard.py</a></td></tr></table>
+    <p><span class="code">``<a href="#ThermalGuard">ThermalGuard</a>``:&nbsp;watch&nbsp;GPU&nbsp;temperature&nbsp;while&nbsp;a&nbsp;block&nbsp;of&nbsp;code&nbsp;runs.</span></p>
 <p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#aa55cc">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
     
-<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="_thread.html">_thread</a><br>
-</td><td width="25%" valign=top><a href="threading.html">threading</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#ee77aa">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="_thread.html">_thread</a><br>
+</td><td class="multicolumn"><a href="threading.html">threading</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
     
-<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl>
-<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
-</font></dt><dd>
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="throttle_gpu.guard.html#ThermalGuard">ThermalGuard</a>
-</font></dt></dl>
+<dt class="heading-text"><a href="throttle_gpu.guard.html#ThermalGuard">ThermalGuard</a>
+</dt></dl>
 </dd>
 </dl>
  <p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#ffc8d8">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="ThermalGuard">class <strong>ThermalGuard</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ThermalGuard">class <strong>ThermalGuard</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
     
-<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt><a href="#ThermalGuard">ThermalGuard</a>(max_temp_c:&nbsp;'float'&nbsp;=&nbsp;85.0,&nbsp;*,&nbsp;interval_s:&nbsp;'float'&nbsp;=&nbsp;1.0,&nbsp;consecutive:&nbsp;'int'&nbsp;=&nbsp;2,&nbsp;warn_temp_c:&nbsp;'float&nbsp;|&nbsp;None'&nbsp;=&nbsp;None,&nbsp;on_warning:&nbsp;'Callable[[float,&nbsp;float],&nbsp;None]&nbsp;|&nbsp;None'&nbsp;=&nbsp;None,&nbsp;source:&nbsp;'TemperatureSource&nbsp;|&nbsp;None'&nbsp;=&nbsp;None)&nbsp;-&amp;gt;&nbsp;'None'<br>
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ThermalGuard">ThermalGuard</a>(max_temp_c:&nbsp;'float'&nbsp;=&nbsp;85.0,&nbsp;*,&nbsp;interval_s:&nbsp;'float'&nbsp;=&nbsp;1.0,&nbsp;consecutive:&nbsp;'int'&nbsp;=&nbsp;2,&nbsp;warn_temp_c:&nbsp;'float&nbsp;|&nbsp;None'&nbsp;=&nbsp;None,&nbsp;on_warning:&nbsp;'Callable[[float,&nbsp;float],&nbsp;None]&nbsp;|&nbsp;None'&nbsp;=&nbsp;None,&nbsp;source:&nbsp;'TemperatureSource&nbsp;|&nbsp;None'&nbsp;=&nbsp;None)&nbsp;-&amp;gt;&nbsp;'None'<br>
 &nbsp;<br>
 Context&nbsp;manager&nbsp;that&nbsp;stops&nbsp;the&nbsp;``with``&nbsp;block&nbsp;when&nbsp;a&nbsp;GPU&nbsp;overheats.<br>
 &nbsp;<br>
@@ -58,40 +55,38 @@ which&nbsp;terminate&nbsp;the&nbsp;work&nbsp;process.<br>
 Example::<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;<a href="#ThermalGuard">ThermalGuard</a>(max_temp_c=83,&nbsp;consecutive=3):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;train_model()<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;train_model()<br>&nbsp;</span></td></tr>
 <tr><td>&nbsp;</td>
-<td width="100%">Methods defined here:<br>
+<td class="singlecolumn">Methods defined here:<br>
 <dl><dt><a name="ThermalGuard-__enter__"><strong>__enter__</strong></a>(self) -&gt; 'ThermalGuard'</dt></dl>
 
 <dl><dt><a name="ThermalGuard-__exit__"><strong>__exit__</strong></a>(self, exc_type, exc, tb) -&gt; 'bool'</dt></dl>
 
-<dl><dt><a name="ThermalGuard-__init__"><strong>__init__</strong></a>(self, max_temp_c: 'float' = 85.0, *, interval_s: 'float' = 1.0, consecutive: 'int' = 2, warn_temp_c: 'float | None' = None, on_warning: 'Callable[[float, float], None] | None' = None, source: 'TemperatureSource | None' = None) -&gt; 'None'</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+<dl><dt><a name="ThermalGuard-__init__"><strong>__init__</strong></a>(self, max_temp_c: 'float' = 85.0, *, interval_s: 'float' = 1.0, consecutive: 'int' = 2, warn_temp_c: 'float | None' = None, on_warning: 'Callable[[float, float], None] | None' = None, source: 'TemperatureSource | None' = None) -&gt; 'None'</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
 
-<dl><dt><a name="ThermalGuard-check"><strong>check</strong></a>(self) -&gt; 'None'</dt><dd><tt>Raise&nbsp;the&nbsp;guard's&nbsp;error&nbsp;now&nbsp;if&nbsp;it&nbsp;has&nbsp;tripped.&nbsp;Cheap&nbsp;enough&nbsp;for&nbsp;hot&nbsp;loops.</tt></dd></dl>
+<dl><dt><a name="ThermalGuard-check"><strong>check</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">Raise&nbsp;the&nbsp;guard's&nbsp;error&nbsp;now&nbsp;if&nbsp;it&nbsp;has&nbsp;tripped.&nbsp;Cheap&nbsp;enough&nbsp;for&nbsp;hot&nbsp;loops.</span></dd></dl>
 
 <hr>
 Readonly properties defined here:<br>
 <dl><dt><strong>peak_temp_c</strong></dt>
-<dd><tt>Hottest&nbsp;reading&nbsp;seen&nbsp;so&nbsp;far,&nbsp;or&nbsp;``None``&nbsp;before&nbsp;the&nbsp;first&nbsp;sample.</tt></dd>
+<dd><span class="code">Hottest&nbsp;reading&nbsp;seen&nbsp;so&nbsp;far,&nbsp;or&nbsp;``None``&nbsp;before&nbsp;the&nbsp;first&nbsp;sample.</span></dd>
 </dl>
 <dl><dt><strong>tripped</strong></dt>
-<dd><tt>``True``&nbsp;once&nbsp;the&nbsp;guard&nbsp;has&nbsp;decided&nbsp;to&nbsp;stop&nbsp;the&nbsp;work.</tt></dd>
+<dd><span class="code">``True``&nbsp;once&nbsp;the&nbsp;guard&nbsp;has&nbsp;decided&nbsp;to&nbsp;stop&nbsp;the&nbsp;work.</span></dd>
 </dl>
 <hr>
 Data descriptors defined here:<br>
 <dl><dt><strong>__dict__</strong></dt>
-<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
 </dl>
 <dl><dt><strong>__weakref__</strong></dt>
-<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
 </dl>
 </td></tr></table></td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#55aa55">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
     
-<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>Callable</strong> = typing.Callable<br>
-<strong>annotations</strong> = _Feature((3, 7, 0, 'beta', 1), (3, 11, 0, 'alpha', 0), 16777216)</td></tr></table>
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Callable</strong> = typing.Callable</td></tr></table>
 </body></html>
