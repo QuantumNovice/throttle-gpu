@@ -5,13 +5,13 @@ build-backend = "hatchling.build"
 [project]
 name = "throttle-gpu"
 version = "0.1.0"
-description = "Guard rails for GPU-heavy Python code: stop execution when GPU temperature exceeds a limit."
+description = "NVIDIA GPU temperature monitoring and thermal protection for Python and CUDA workloads."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.9"
 authors = [{ name = "QuantumNovice" }]
-keywords = ["gpu", "nvidia", "temperature", "thermal", "monitoring", "cuda", "guard"]
+keywords = ["gpu", "nvidia", "temperature monitor", "thermal protection", "cuda", "machine learning", "pytorch", "training", "monitoring", "guard"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -27,9 +27,10 @@ classifiers = [
     "Topic :: System :: Hardware",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["nvidia-ml-py>=12.0"]
+dependencies = []
 
 [project.optional-dependencies]
+nvml = ["nvidia-ml-py>=12.0"]
 dev = ["pytest>=8", "ruff>=0.5", "build>=1.2"]
 
 [project.scripts]
@@ -49,6 +50,7 @@ include = ["src", "tests", "README.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICE
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
 addopts = "-ra"
 
 [tool.ruff]

@@ -1,27 +1,27 @@
-# throttle-gpu
+# throttle-gpu: NVIDIA GPU Temperature Monitor and Thermal Guard
 
-Guard rails for GPU-heavy Python code. `throttle-gpu` watches GPU temperature while your code runs and stops the work when a GPU gets too hot.
+`throttle-gpu` is a Python NVIDIA GPU temperature monitor and thermal protection tool for CUDA training and other GPU-heavy workloads. It watches GPU temperatures while code runs and stops work when a GPU gets too hot. Use it as a Python API or from the command line.
 
 - **`ThermalGuard`**: a `with` block that stops when a GPU overheats.
 - **`run_isolated`**: runs a function in a child process and kills it on overheat. This is the hard stop.
 - **`throttle-gpu run -- CMD`**: wraps any command, such as a training script, and kills its whole process tree on overheat.
 - **`throttle-gpu watch`**: logs temperatures until a limit trips.
 
-Requires an NVIDIA GPU with a working driver. It reads temperatures through NVML (`nvidia-ml-py`) and falls back to `nvidia-smi`.
+Requires an NVIDIA GPU with a working driver. It reads temperatures through NVML (`nvidia-ml-py`, optional) and falls back to `nvidia-smi`.
 
 ## Install
 
 ```bash
-pip install throttle-gpu
+pip install "git+https://github.com/QuantumNovice/throttle-gpu.git"
 ```
 
-From source:
+To enable the NVML temperature backend, install the `nvml` extra directly from GitHub:
 
 ```bash
-git clone https://github.com/QuantumNovice/throttle-gpu
-cd throttle-gpu
-pip install -e ".[dev]"
+pip install "throttle-gpu[nvml] @ git+https://github.com/QuantumNovice/throttle-gpu.git"
 ```
+
+Without the extra, `throttle-gpu` uses the `nvidia-smi` command supplied by the NVIDIA driver.
 
 ## Usage
 
@@ -92,6 +92,14 @@ The guard fails closed: if a temperature reading fails, the work stops with `GPU
 ## Development
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Tests use a fake temperature source, so they run without a GPU.
+
+## Documentation
+
+The API reference is generated from Python docstrings and published to GitHub Pages when changes are pushed to `main`. Enable GitHub Pages for the repository with **GitHub Actions** as the build and deployment source. To generate the same HTML locally, run:
+
+```bash
+PYTHONPATH=src python -m pydoc -w throttle_gpu throttle_gpu.errors throttle_gpu.guard throttle_gpu.isolated throttle_gpu.policy throttle_gpu.sources throttle_gpu.cli
+```
 
 ## License
 
